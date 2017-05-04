@@ -3,6 +3,7 @@ package com.mygdx.game.sprites;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 
 import java.util.Random;
 
@@ -18,8 +19,9 @@ public class Rainbow {
 
     private Texture topTube, bottomTube;
     private Vector2 posBottomTube, posTopTube;
-    private Rectangle boundsTop, boundsBot;
+    private Rectangle boundsTop, boundsBot, passingLine;
     private Random rand;
+    private boolean point;
 
     public Rainbow(float x){
         topTube = new Texture("hinder.png");
@@ -30,7 +32,10 @@ public class Rainbow {
         posBottomTube = new Vector2(x, posTopTube.y - TUBE_GAP - bottomTube.getHeight());
 
         boundsTop = new Rectangle(posTopTube.x + 5, posTopTube.y + 5, topTube.getWidth() - 10, topTube.getHeight() - 10);
-        boundsBot = new Rectangle(posBottomTube.x - 5, posBottomTube.y - 5, bottomTube.getWidth() - 10, bottomTube.getHeight());
+        boundsBot = new Rectangle(posBottomTube.x - 5, posBottomTube.y - 5, bottomTube.getWidth() - 10, bottomTube.getHeight() - 10);
+        passingLine = new Rectangle(x + topTube.getWidth() / 2, 0, 1, bottomTube.getHeight() + topTube.getHeight());
+
+        point = false;
 
     }
 
@@ -55,10 +60,19 @@ public class Rainbow {
         posBottomTube.set(x, posTopTube.y - TUBE_GAP - bottomTube.getHeight());
         boundsTop.setPosition(posTopTube.x, posTopTube.y);
         boundsBot.setPosition(posBottomTube.x, posBottomTube.y);
+        point = false;
     }
 
     public boolean collides(Rectangle player){
         return player.overlaps(boundsTop) || player.overlaps(boundsBot);
+    }
+
+    public boolean passing(Rectangle player){
+        if(!point && player.overlaps(passingLine)) {
+            point = true;
+            return true;
+        }
+        return false;
     }
 
     public void dispose(){

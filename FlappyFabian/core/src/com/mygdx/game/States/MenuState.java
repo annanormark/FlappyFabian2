@@ -12,7 +12,7 @@ import com.mygdx.game.FlappyFabian;
 public class MenuState extends State {
     private Texture backgroud;
     private Texture playBtn;
-    private SpriteBatch batch;
+
     public MenuState(GameStateManager gam) {
         super(gam);
         backgroud = new Texture("Bakgrund.png");
@@ -41,8 +41,6 @@ public class MenuState extends State {
         sb.draw(backgroud, x, y, cam.viewportWidth, cam.viewportHeight);
         sb.draw(playBtn, cam.position.x - (playBtn.getWidth() / 2), cam.position.y - (playBtn.getHeight()/2));
         sb.end();
-        batch = sb;
-
     }
 
     @Override

@@ -20,23 +20,25 @@ public class PlayState extends State {
     private static final int GROUND_Y_OFFSET = -30;
 
     private Fabian fabian;
-    private Texture bg;
-    private Texture ground;
+    private Texture bg, ground;
     private Vector2 groundPos1, groundPos2;
+    private int POINTS;
 
     private Array<Rainbow> tubes;
 
     public PlayState(GameStateManager gam) {
         super(gam);
-        fabian = new Fabian(50,200);
         cam.setToOrtho(false, FlappyFabian.WIDTH/2, FlappyFabian.HEIGHT/2);
+        POINTS = 0;
+
         bg = new Texture("Bakgrund.png");
         ground = new Texture("moln.png");
+
+        fabian = new Fabian(50,200);
         groundPos1 = new Vector2(cam.position.x - cam.viewportWidth /2, GROUND_Y_OFFSET);
         groundPos2 = new Vector2((cam.position.x - cam.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
 
         tubes = new Array<Rainbow>();
-
         for (int i = 0; i < TUBE_COUNT; i++){
             tubes.add(new Rainbow(i * (TUBE_SPACING + Rainbow.TUBE_WIDTH)));
         }
@@ -64,6 +66,14 @@ public class PlayState extends State {
 
             if(rainbow.collides(fabian.getBounds()))
                 gam.set(new MenuState(gam));
+
+
+            else if(rainbow.passing(fabian.getBounds())){
+                POINTS++;
+                System.out.println(POINTS);
+            }
+            //System.out.println(rainbow.passing(fabian.getPosition()));
+
         }
 
         if(fabian.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
