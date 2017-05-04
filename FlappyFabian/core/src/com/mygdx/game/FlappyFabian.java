@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.States.GameStateManager;
 import com.mygdx.game.States.MenuState;
-//import com.sun.org.apache.xpath.internal.operations.String;
 import java.lang.String;
 
 public class FlappyFabian extends ApplicationAdapter {

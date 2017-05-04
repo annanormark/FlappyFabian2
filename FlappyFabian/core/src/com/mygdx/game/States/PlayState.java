@@ -67,7 +67,7 @@ public class PlayState extends State {
         }
 
         if(fabian.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
-            gam.set(new PlayState(gam));
+            gam.set(new MenuState(gam));
 
         cam.update();
     }

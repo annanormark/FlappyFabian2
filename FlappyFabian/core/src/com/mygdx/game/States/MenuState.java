@@ -12,6 +12,7 @@ import com.mygdx.game.FlappyFabian;
 public class MenuState extends State {
     private Texture backgroud;
     private Texture playBtn;
+    private SpriteBatch batch;
     public MenuState(GameStateManager gam) {
         super(gam);
         backgroud = new Texture("Bakgrund.png");
@@ -32,10 +33,15 @@ public class MenuState extends State {
 
     @Override
     public void render(SpriteBatch sb) {
+        sb.setProjectionMatrix(cam.combined);
         sb.begin();
-        sb.draw(backgroud, 0, 0, FlappyFabian.WIDTH, FlappyFabian.HEIGHT);
-        sb.draw(playBtn, (FlappyFabian.WIDTH / 2) - (playBtn.getWidth() / 2), (FlappyFabian.HEIGHT / 2) - (playBtn.getHeight()/2));
+
+        float x = cam.position.x - (cam.viewportWidth / 2);
+        float y = cam.position.y - (cam.viewportHeight/2);
+        sb.draw(backgroud, x, y, cam.viewportWidth, cam.viewportHeight);
+        sb.draw(playBtn, cam.position.x - (playBtn.getWidth() / 2), cam.position.y - (playBtn.getHeight()/2));
         sb.end();
+        batch = sb;
 
     }
 
@@ -43,5 +49,7 @@ public class MenuState extends State {
     public void dispose() {
         backgroud.dispose();
         playBtn.dispose();
+        System.out.println("Menu state disposed");
+
     }
 }
