@@ -2,6 +2,7 @@ package com.mygdx.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.mygdx.game.States.GameStateManager;
@@ -15,11 +16,17 @@ public class FlappyFabian extends ApplicationAdapter {
 
 	private GameStateManager gam;
 	private SpriteBatch batch;
+
+	private Music music;
 	
 	@Override
 	public void create () {
 		batch = new SpriteBatch();
 		gam = new GameStateManager();
+		music = Gdx.audio.newMusic(Gdx.files.internal("vindljud.mp3"));
+		music.setLooping(true);
+		music.setVolume(0.8f);
+		music.play();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		gam.push(new MenuState(gam));
 
@@ -35,5 +42,6 @@ public class FlappyFabian extends ApplicationAdapter {
 	@Override
 	public void dispose () {
 		batch.dispose();
+		music.dispose();
 	}
 }
