@@ -1,6 +1,9 @@
 package com.mygdx.game.sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
@@ -17,7 +20,9 @@ public class Fabian {
     private Vector3 velocity;
     private Texture bird;
     private Rectangle bounds;
-    private Animation birdAni;
+    private Animation birdAnimation;
+    private Texture texture;
+    private Sound flap;
 
     /***
      * TODO: add the animation, part 13 of videos
@@ -27,7 +32,10 @@ public class Fabian {
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
         bird = new Texture("fabian.gif");
-        bounds = new Rectangle(x, y, bird.getWidth() - 6, bird.getHeight() - 5);
+        texture = new Texture("flappar.png");
+        birdAnimation = new Animation(new TextureRegion(texture), 2, 0.5f);
+        bounds = new Rectangle(x, y, texture.getWidth() / 2 - 6, texture.getHeight() - 5);
+        flap = Gdx.audio.newSound(Gdx.files.internal("horse.ogg"));
     }
 
     public Vector3 getPosition() {
@@ -39,6 +47,7 @@ public class Fabian {
     }
 
     public void update(float dt){
+        birdAnimation.update(dt);
         if(position.y > 0)
             velocity.add(0, GRAVITY, 0);
         velocity.scl(dt);
@@ -49,12 +58,13 @@ public class Fabian {
         bounds.setPosition(position.x, position.y);
     }
 
-    public Texture getTexture(){
-        return bird;
+    public TextureRegion getTexture(){
+        return birdAnimation.getFrame();
     }
 
     public void jump(){
         velocity.y = 250;
+        flap.play(0.5f);
     }
 
     public Rectangle getBounds(){
@@ -62,6 +72,7 @@ public class Fabian {
     }
 
     public void dispose(){
-        bird.dispose();
+        texture.dispose();
+        flap.dispose();
     }
 }

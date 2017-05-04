@@ -12,7 +12,7 @@ import java.lang.String;
 public class FlappyFabian extends ApplicationAdapter {
 	public static final int WIDTH = 480;
 	public static final int HEIGHT = 800;
-	public static final String TITLE = "FlappyBird";
+	public static final String TITLE = "FlappyFabian";
 
 	private GameStateManager gam;
 	private SpriteBatch batch;
