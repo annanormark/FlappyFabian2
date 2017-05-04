@@ -22,6 +22,7 @@ public class FlappyFabian extends ApplicationAdapter {
 		gam = new GameStateManager();
 		Gdx.gl.glClearColor(1, 0, 0, 1);
 		gam.push(new MenuState(gam));
+
 	}
 
 	@Override
