@@ -2,6 +2,7 @@ package com.mygdx.game.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -22,17 +23,19 @@ public class PlayState extends State {
     private Fabian fabian;
     private Texture bg, ground;
     private Vector2 groundPos1, groundPos2;
-    private int POINTS;
+    private int SCORE;
+    private BitmapFont font;
 
     private Array<Rainbow> tubes;
 
     public PlayState(GameStateManager gam) {
         super(gam);
         cam.setToOrtho(false, FlappyFabian.WIDTH/2, FlappyFabian.HEIGHT/2);
-        POINTS = 0;
+        SCORE = 0;
 
         bg = new Texture("Bakgrund.png");
         ground = new Texture("moln.png");
+        font = new BitmapFont();
 
         fabian = new Fabian(50,200);
         groundPos1 = new Vector2(cam.position.x - cam.viewportWidth /2, GROUND_Y_OFFSET);
@@ -70,11 +73,9 @@ public class PlayState extends State {
 
 
             else if(rainbow.passing(fabian.getBounds())){
-                POINTS++;
-                System.out.println(POINTS);
+                SCORE++;
+                System.out.println(SCORE);
             }
-            //System.out.println(rainbow.passing(fabian.getPosition()));
-
         }
 
         if(fabian.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
@@ -104,12 +105,19 @@ public class PlayState extends State {
         sb.draw(ground, groundPos1.x, groundPos1.y);
         sb.draw(ground, groundPos2.x, groundPos2.y);
         sb.end();
+
+        sb.begin();
+        font.setUseIntegerPositions(true);
+        font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+        font.draw(sb, SCORE + "", cam.position.x, cam.position.y + ( cam.viewportHeight / 3));
+        sb.end();
     }
 
     @Override
     public void dispose() {
         bg.dispose();
         fabian.dispose();
+        ground.dispose();
         for( Rainbow rainbow : tubes)
             rainbow.dispose();
         System.out.println("Play state disposed");
