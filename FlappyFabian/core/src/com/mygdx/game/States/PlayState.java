@@ -62,6 +62,7 @@ public class PlayState extends State {
             Rainbow rainbow = tubes.get(i);
             if(cam.position.x - (cam.viewportWidth / 2) > rainbow.getPosTopTube().x + rainbow.getTopTube().getWidth()){
                 rainbow.reposition(rainbow.getPosTopTube().x + ((Rainbow.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
+
             }
 
             if(rainbow.collides(fabian.getBounds()))
