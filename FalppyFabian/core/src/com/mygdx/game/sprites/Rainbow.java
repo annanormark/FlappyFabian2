@@ -29,8 +29,8 @@ public class Rainbow {
         posTopTube = new Vector2(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
         posBottomTube = new Vector2(x, posTopTube.y - TUBE_GAP - bottomTube.getHeight());
 
-        boundsTop = new Rectangle(posTopTube.x - 1, posTopTube.y- 1, topTube.getWidth() - 2, topTube.getHeight() - 2);
-        boundsBot = new Rectangle(posBottomTube.x - 1, posBottomTube.y - 1, bottomTube.getWidth() - 2, bottomTube.getHeight());
+        boundsTop = new Rectangle(posTopTube.x + 5, posTopTube.y + 5, topTube.getWidth() - 10, topTube.getHeight() - 10);
+        boundsBot = new Rectangle(posBottomTube.x - 5, posBottomTube.y - 5, bottomTube.getWidth() - 10, bottomTube.getHeight());
 
     }
 

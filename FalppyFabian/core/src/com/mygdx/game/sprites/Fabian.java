@@ -27,7 +27,7 @@ public class Fabian {
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
         bird = new Texture("fabian.gif");
-        bounds = new Rectangle(x, y, bird.getWidth(), bird.getHeight());
+        bounds = new Rectangle(x, y, bird.getWidth() - 6, bird.getHeight() - 5);
     }
 
     public Vector3 getPosition() {
