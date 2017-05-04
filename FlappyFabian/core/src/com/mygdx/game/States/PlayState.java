@@ -3,6 +3,7 @@ package com.mygdx.game.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.FlappyFabian;
@@ -16,9 +17,12 @@ import com.mygdx.game.sprites.Rainbow;
 public class PlayState extends State {
     private static final int TUBE_SPACING = 125;
     private static final int TUBE_COUNT = 4;
+    private static final int GROUND_Y_OFFSET = -30;
 
     private Fabian fabian;
     private Texture bg;
+    private Texture ground;
+    private Vector2 groundPos1, groundPos2;
 
     private Array<Rainbow> tubes;
 
@@ -27,6 +31,9 @@ public class PlayState extends State {
         fabian = new Fabian(50,200);
         cam.setToOrtho(false, FlappyFabian.WIDTH/2, FlappyFabian.HEIGHT/2);
         bg = new Texture("Bakgrund.png");
+        ground = new Texture("moln.png");
+        groundPos1 = new Vector2(cam.position.x - cam.viewportWidth /2, GROUND_Y_OFFSET);
+        groundPos2 = new Vector2((cam.position.x - cam.viewportWidth / 2) + ground.getWidth(), GROUND_Y_OFFSET);
 
         tubes = new Array<Rainbow>();
 
@@ -45,6 +52,7 @@ public class PlayState extends State {
     @Override
     public void update(float dt) {
         handleInput();
+        updateGround();
         fabian.update(dt);
         cam.position.x = fabian.getPosition().x;
 
@@ -57,6 +65,9 @@ public class PlayState extends State {
             if(rainbow.collides(fabian.getBounds()))
                 gam.set(new MenuState(gam));
         }
+
+        if(fabian.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
+            gam.set(new PlayState(gam));
 
         cam.update();
     }
@@ -79,6 +90,8 @@ public class PlayState extends State {
             sb.draw(rainbow.getBottomTube(), rainbow.getPosBottomTube().x, rainbow.getPosBottomTube().y);
         }
 
+        sb.draw(ground, groundPos1.x, groundPos1.y);
+        sb.draw(ground, groundPos2.x, groundPos2.y);
         sb.end();
     }
 
@@ -90,4 +103,14 @@ public class PlayState extends State {
             rainbow.dispose();
         System.out.println("Play state disposed");
     }
+
+
+    private void updateGround(){
+        if(cam.position.x - (cam.viewportWidth / 2) > groundPos1.x + ground.getWidth())
+            groundPos1.add(ground.getHeight() * 2, 0);
+        if(cam.position.x - (cam.viewportWidth / 2) > groundPos2.x + ground.getWidth())
+            groundPos2.add(ground.getHeight() * 2, 0);
+    }
+
+
 }
