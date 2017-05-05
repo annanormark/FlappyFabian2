@@ -17,7 +17,7 @@ import com.mygdx.game.sprites.Rainbow;
 
 public class PlayState extends State {
     // Set variables for the play
-    private static final int OBSTACLE_SPACING = 125;
+    private static final int OBSTACLE_SPACING = 140;
     private static final int OBSTACLE_COUNT = 4;
     private static final int GROUND_Y_OFFSET = -30;
 
