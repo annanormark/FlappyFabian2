@@ -8,9 +8,6 @@ import com.badlogic.gdx.utils.Array;
  * Makes fabian move
  */
 
-/**
- * TODO: part 13, create image for this
- */
 
 public class Animation {
     private Array<TextureRegion> frames;
@@ -41,7 +38,6 @@ public class Animation {
     }
 
     public TextureRegion getFrame(){
-
         return frames.get(frame);
     }
 }

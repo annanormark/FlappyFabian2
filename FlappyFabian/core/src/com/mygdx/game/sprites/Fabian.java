@@ -7,27 +7,25 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector3;
 
-import java.io.Console;
-
 /**
  * Created by Anna on 2017-05-02.
+ * The class that handels fabian, or the unicorn, in the game
  */
 
 public class Fabian {
+    // set variables
     private static final int GRAVITY = -15;
     private static final int MOVEMENT = 100;
-    private Vector3 position;
-    private Vector3 velocity;
+
+    // variables that only exsists in fbaian
+    private Vector3 position, velocity;
     private Texture bird;
     private Rectangle bounds;
     private Animation birdAnimation;
     private Texture texture;
     private Sound flap;
 
-    /***
-     * TODO: add the animation, part 13 of videos
-     */
-
+    // initiate fabian
     public Fabian(int x, int y){
         position = new Vector3(x, y, 0);
         velocity = new Vector3(0, 0, 0);
@@ -38,14 +36,12 @@ public class Fabian {
         flap = Gdx.audio.newSound(Gdx.files.internal("horse.ogg"));
     }
 
+    // return position of fabian
     public Vector3 getPosition() {
         return position;
     }
 
-    public Texture getBird() {
-        return bird;
-    }
-
+    //the update function is called 60 times per second
     public void update(float dt){
         birdAnimation.update(dt);
         if(position.y > 0)
@@ -62,15 +58,18 @@ public class Fabian {
         return birdAnimation.getFrame();
     }
 
+    // makes fabian jump when called
     public void jump(){
         velocity.y = 250;
         flap.play(0.5f);
     }
 
+    // Get bounds of fabian, used to detect collides and more
     public Rectangle getBounds(){
         return bounds;
     }
 
+    // Disposed is called in the end to make sure we don't create memory leaks
     public void dispose(){
         texture.dispose();
         flap.dispose();

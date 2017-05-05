@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import java.util.Stack;
 
 /**
- * Created by Anna on 2017-05-02.
+ * Handels the different states of the game (which is a stack)
  */
 
 public class GameStateManager {
