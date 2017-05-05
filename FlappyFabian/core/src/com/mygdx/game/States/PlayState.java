@@ -43,7 +43,7 @@ public class PlayState extends State {
 
         tubes = new Array<Rainbow>();
         for (int i = 0; i < TUBE_COUNT; i++){
-            tubes.add(new Rainbow(i * (TUBE_SPACING + Rainbow.TUBE_WIDTH)));
+            tubes.add(new Rainbow(i * (TUBE_SPACING + Rainbow.OBSTACLE_WIDTH)));
         }
     }
 
@@ -63,8 +63,8 @@ public class PlayState extends State {
 
         for(int i = 0; i < tubes.size; i++){
             Rainbow rainbow = tubes.get(i);
-            if(cam.position.x - (cam.viewportWidth / 2) > rainbow.getPosTopTube().x + rainbow.getTopTube().getWidth()){
-                rainbow.reposition(rainbow.getPosTopTube().x + ((Rainbow.TUBE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
+            if(cam.position.x - (cam.viewportWidth / 2) > rainbow.getPosTopRainbow().x + rainbow.getTopRainbow().getWidth()){
+                rainbow.reposition(rainbow.getPosTopRainbow().x + ((Rainbow.OBSTACLE_WIDTH + TUBE_SPACING) * TUBE_COUNT));
 
             }
 
@@ -98,8 +98,8 @@ public class PlayState extends State {
 
         //create tubes or obstacles
         for(Rainbow rainbow : tubes) {
-            sb.draw(rainbow.getTopTube(), rainbow.getPosTopTube().x, rainbow.getPosTopTube().y);
-            sb.draw(rainbow.getBottomTube(), rainbow.getPosBottomTube().x, rainbow.getPosBottomTube().y);
+            sb.draw(rainbow.getTopRainbow(), rainbow.getPosTopRainbow().x, rainbow.getPosTopRainbow().y);
+            sb.draw(rainbow.getBottomRainbow(), rainbow.getPosBottomRainbow().x, rainbow.getPosBottomRainbow().y);
         }
 
         sb.draw(ground, groundPos1.x, groundPos1.y);

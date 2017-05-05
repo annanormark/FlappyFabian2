@@ -5,76 +5,71 @@ import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 import java.util.Random;
 
 /**
- * Created by Anna on 2017-05-02.
+ * The class that handles the rainbow obstacles
  */
 
 public class Rainbow {
     private static final int FLUCTUATION = 130;
-    private static final int TUBE_GAP = 100;
+    private static final int OBSTACLE_GAP = 100;
     private static final int LOWEST_OPENING = 120;
-    public static final int TUBE_WIDTH = 52;
+    public static final int OBSTACLE_WIDTH = 52;
 
     private Sound pling;
-    private Texture topTube, bottomTube;
-    private Vector2 posBottomTube, posTopTube;
+    private Texture topRainbow, bottomRainbow;
+    private Vector2 posBottomRainbow, posTopRainbow;
     private Rectangle boundsTop, boundsBot, passingLine;
     private Random rand;
     private boolean point;
 
+    // creates the obstacles and what should happen when passing
     public Rainbow(float x){
-        topTube = new Texture("hinder.png");
-        bottomTube = new Texture("hinder.png");
+        topRainbow = new Texture("hinder.png");
+        bottomRainbow = new Texture("hinder.png");
         rand = new Random();
 
         pling = Gdx.audio.newSound(Gdx.files.internal("point.ogg"));
 
-        posTopTube = new Vector2(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
-        posBottomTube = new Vector2(x, posTopTube.y - TUBE_GAP - bottomTube.getHeight());
+        posTopRainbow = new Vector2(x, rand.nextInt(FLUCTUATION) + OBSTACLE_GAP + LOWEST_OPENING);
+        posBottomRainbow = new Vector2(x, posTopRainbow.y - OBSTACLE_GAP - bottomRainbow.getHeight());
 
-        boundsTop = new Rectangle(posTopTube.x + 5, posTopTube.y + 5, topTube.getWidth() - 10, topTube.getHeight() - 10);
-        boundsBot = new Rectangle(posBottomTube.x - 5, posBottomTube.y - 5, bottomTube.getWidth() - 10, bottomTube.getHeight() - 10);
-        passingLine = new Rectangle(x + topTube.getWidth() / 2, 0, 1, bottomTube.getHeight() + topTube.getHeight());
+        boundsTop = new Rectangle(posTopRainbow.x + 5, posTopRainbow.y + 5, topRainbow.getWidth() - 10, topRainbow.getHeight() - 10);
+        boundsBot = new Rectangle(posBottomRainbow.x - 5, posBottomRainbow.y - 5, bottomRainbow.getWidth() - 10, bottomRainbow.getHeight() - 10);
+        passingLine = new Rectangle(x + topRainbow.getWidth() / 2, 0, 1, bottomRainbow.getHeight() + topRainbow.getHeight());
 
         point = false;
 
     }
-
-    public Texture getBottomTube() {
-        return bottomTube;
+    //Gets the obstacles
+    public Texture getBottomRainbow() { return bottomRainbow; }
+    public Texture getTopRainbow() { return topRainbow; }
+    public Vector2 getPosBottomRainbow() {
+        return posBottomRainbow;
+    }
+    public Vector2 getPosTopRainbow() {
+        return posTopRainbow;
     }
 
-    public Texture getTopTube() {
-        return topTube;
-    }
-
-    public Vector2 getPosBottomTube() {
-        return posBottomTube;
-    }
-
-    public Vector2 getPosTopTube() {
-        return posTopTube;
-    }
-
+    // moves the obstacle that has been passing to the start again
     public void reposition(float x){
         point = false;
-        posTopTube.set(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
-        posBottomTube.set(x, posTopTube.y - TUBE_GAP - bottomTube.getHeight());
-        boundsTop.setPosition(posTopTube.x, posTopTube.y);
-        boundsBot.setPosition(posBottomTube.x, posBottomTube.y);
-        passingLine.setPosition(x + topTube.getWidth() / 2, 0);
+        posTopRainbow.set(x, rand.nextInt(FLUCTUATION) + OBSTACLE_GAP + LOWEST_OPENING);
+        posBottomRainbow.set(x, posTopRainbow.y - OBSTACLE_GAP - bottomRainbow.getHeight());
+        boundsTop.setPosition(posTopRainbow.x, posTopRainbow.y);
+        boundsBot.setPosition(posBottomRainbow.x, posBottomRainbow.y);
+        passingLine.setPosition(x + topRainbow.getWidth() / 2, 0);
 
     }
 
+    // When the player hits a rainbow
     public boolean collides(Rectangle player){
         return player.overlaps(boundsTop) || player.overlaps(boundsBot);
     }
 
-    // 
+    // When the player goes through a passing without hitting
     public boolean passing(Rectangle player){
         if(!point && player.overlaps(passingLine)) {
             pling.play(0.5f);
@@ -84,9 +79,10 @@ public class Rainbow {
         return false;
     }
 
+    // Called in the end inorder to not create memory leaks
     public void dispose(){
-        bottomTube.dispose();
-        topTube.dispose();
+        bottomRainbow.dispose();
+        topRainbow.dispose();
         pling.dispose();
     }
 }
