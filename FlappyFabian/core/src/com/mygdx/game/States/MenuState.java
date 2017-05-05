@@ -3,24 +3,25 @@ package com.mygdx.game.States;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.mygdx.game.FlappyFabian;
+import com.badlogic.gdx.scenes.scene2d.ui.Image;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 /**
  * Created by Anna on 2017-05-02.
  */
 
 public class MenuState extends State {
-    private Texture backgroud;
-    private Texture playBtn;
-
-    private Texture titlepic;
+    private Texture backgroud, playBtnPic, titlepic;
     private SpriteBatch batch;
+    private Image playBtn, tutBtn;
 
     public MenuState(GameStateManager gam) {
         super(gam);
         backgroud = new Texture("Bakgrund.png");
         titlepic = new Texture("title.png");
-        playBtn = new Texture("start.png");
+        playBtnPic = new Texture("start.png");
+        playBtn = new Image(playBtnPic);
+
 
     }
 
@@ -29,6 +30,8 @@ public class MenuState extends State {
         if (Gdx.input.justTouched()){
             gam.set(new PlayState(gam));
         }
+
+
     }
 
     @Override
@@ -45,14 +48,14 @@ public class MenuState extends State {
         float y = cam.position.y - (cam.viewportHeight/2);
         sb.draw(backgroud, x, y, cam.viewportWidth, cam.viewportHeight);
         sb.draw(titlepic, cam.position.x - (titlepic.getWidth() / 2), cam.position.x - (titlepic.getWidth()) + 470);
-        sb.draw(playBtn, cam.position.x - (playBtn.getWidth() / 2), cam.position.y - (playBtn.getHeight()/2));
+        sb.draw(playBtnPic, cam.position.x - (playBtnPic.getWidth() / 2), cam.position.y - (playBtnPic.getHeight()/2));
         sb.end();
     }
 
     @Override
     public void dispose() {
         backgroud.dispose();
-        playBtn.dispose();
+        playBtnPic.dispose();
         System.out.println("Menu state disposed");
 
     }

@@ -67,7 +67,7 @@ public class PlayState extends State {
         fabian.update(dt);
 
         // center fabian on the screen (moves "camera" to fabians position)
-        cam.position.x = fabian.getPosition().x;
+        cam.position.x = fabian.getPosition().x + 60;
 
         //for each tube check if fabian collides, passes or if the tube should be moved to front
         for(int i = 0; i < tubes.size; i++){
@@ -76,8 +76,9 @@ public class PlayState extends State {
                 rainbow.reposition(rainbow.getPosTopRainbow().x + ((Rainbow.OBSTACLE_WIDTH + OBSTACLE_SPACING) * OBSTACLE_COUNT));
             }
 
-            if(rainbow.collides(fabian.getBounds()))
+            if(rainbow.collides(fabian.getBounds())) {
                 gam.set(new MenuState(gam));
+            }
 
 
             else if(rainbow.passing(fabian.getBounds())){
