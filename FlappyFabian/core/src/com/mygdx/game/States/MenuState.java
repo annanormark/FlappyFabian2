@@ -13,10 +13,15 @@ public class MenuState extends State {
     private Texture backgroud;
     private Texture playBtn;
 
+    private Texture titlepic;
+    private SpriteBatch batch;
+
     public MenuState(GameStateManager gam) {
         super(gam);
         backgroud = new Texture("Bakgrund.png");
+        titlepic = new Texture("title.png");
         playBtn = new Texture("start.png");
+
     }
 
     @Override
@@ -39,6 +44,7 @@ public class MenuState extends State {
         float x = cam.position.x - (cam.viewportWidth / 2);
         float y = cam.position.y - (cam.viewportHeight/2);
         sb.draw(backgroud, x, y, cam.viewportWidth, cam.viewportHeight);
+        sb.draw(titlepic, cam.position.x - (titlepic.getWidth() / 2), cam.position.x - (titlepic.getWidth()) + 470);
         sb.draw(playBtn, cam.position.x - (playBtn.getWidth() / 2), cam.position.y - (playBtn.getHeight()/2));
         sb.end();
     }

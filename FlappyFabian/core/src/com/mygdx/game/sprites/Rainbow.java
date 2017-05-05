@@ -1,5 +1,7 @@
 package com.mygdx.game.sprites;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -17,6 +19,7 @@ public class Rainbow {
     private static final int LOWEST_OPENING = 120;
     public static final int TUBE_WIDTH = 52;
 
+    private Sound pling;
     private Texture topTube, bottomTube;
     private Vector2 posBottomTube, posTopTube;
     private Rectangle boundsTop, boundsBot, passingLine;
@@ -27,6 +30,8 @@ public class Rainbow {
         topTube = new Texture("hinder.png");
         bottomTube = new Texture("hinder.png");
         rand = new Random();
+
+        pling = Gdx.audio.newSound(Gdx.files.internal("point.ogg"));
 
         posTopTube = new Vector2(x, rand.nextInt(FLUCTUATION) + TUBE_GAP + LOWEST_OPENING);
         posBottomTube = new Vector2(x, posTopTube.y - TUBE_GAP - bottomTube.getHeight());
@@ -69,8 +74,10 @@ public class Rainbow {
         return player.overlaps(boundsTop) || player.overlaps(boundsBot);
     }
 
+    // 
     public boolean passing(Rectangle player){
         if(!point && player.overlaps(passingLine)) {
+            pling.play(0.5f);
             point = true;
             return true;
         }
@@ -80,5 +87,6 @@ public class Rainbow {
     public void dispose(){
         bottomTube.dispose();
         topTube.dispose();
+        pling.dispose();
     }
 }
