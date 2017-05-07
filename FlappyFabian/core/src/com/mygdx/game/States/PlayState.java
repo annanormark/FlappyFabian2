@@ -10,6 +10,9 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.FlappyFabian;
 import com.mygdx.game.sprites.Fabian;
 import com.mygdx.game.sprites.Rainbow;
+import java.lang.Object;
+
+import static java.lang.Thread.sleep;
 
 /**
  * Handels the entire state where the user plays
@@ -77,6 +80,9 @@ public class PlayState extends State {
             }
 
             if(rainbow.collides(fabian.getBounds())) {
+                try {
+                    sleep(200);
+                } catch(InterruptedException e){ System.out.println(e.toString());}
                 gam.set(new MenuState(gam));
             }
 
@@ -88,8 +94,12 @@ public class PlayState extends State {
         }
 
         // check if fabian collides with ground
-        if(fabian.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET)
+        if(fabian.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET) {
+            try {
+                sleep(200);
+            } catch(InterruptedException e){ System.out.println(e.toString());}
             gam.set(new MenuState(gam));
+        }
 
         cam.update();
     }
