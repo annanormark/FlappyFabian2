@@ -28,7 +28,8 @@ public class MenuState extends State {
     @Override
     public void handleInput() {
         if (Gdx.input.justTouched()){
-            gam.set(new PlayState(gam));
+            //gam.set(new PlayState(gam));
+            gam.set(new TutorialState(gam));
         }
 
 

@@ -26,6 +26,8 @@ public class FlappyFabian extends ApplicationAdapter {
 	// on create the game
 	@Override
 	public void create () {
+		Gdx.graphics.setContinuousRendering(false);
+		Gdx.graphics.requestRendering();
 		batch = new SpriteBatch();
 		gam = new GameStateManager();
 		music = Gdx.audio.newMusic(Gdx.files.internal("vindljud.mp3"));
