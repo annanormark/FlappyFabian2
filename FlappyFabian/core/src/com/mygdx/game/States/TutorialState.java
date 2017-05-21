@@ -97,9 +97,11 @@ public class TutorialState extends State {
     // update is called 60 times per seconds and update the entire game
     @Override
     public void update(float dt) {
-        // update different parts of the game + makes sure input is handleed directly
+        // update different parts of the game + makes sure input is handled directly
         handleInput();
         updateGround();
+
+        // update only if the game is running
         if (!paused) {
 
             fabian.update(dt);
@@ -113,7 +115,7 @@ public class TutorialState extends State {
                 if (cam.position.x - (cam.viewportWidth / 2) > rainbow.getPosTopRainbow().x + rainbow.getTopRainbow().getWidth()) {
                     rainbow.reposition(rainbow.getPosTopRainbow().x + ((Rainbow.OBSTACLE_WIDTH + OBSTACLE_SPACING) * OBSTACLE_COUNT));
                 }
-
+                // Pause the game if you collide
                 if (rainbow.collides(fabian.getBounds())) {
                     paused = true;
                     dead = true;
@@ -126,7 +128,7 @@ public class TutorialState extends State {
                 }
             }
 
-            // check if fabian collides with ground
+            // check if fabian collides with ground, pause the game if so
             if (fabian.getPosition().y <= ground.getHeight() + GROUND_Y_OFFSET) {
                 paused = true;
                 dead = true;
@@ -148,9 +150,7 @@ public class TutorialState extends State {
         sb.draw(bg, cam.position.x - (cam.viewportWidth / 2), 0, cam.viewportWidth, cam.viewportHeight);
 
 
-        /*if (tutPic==3){
-            paused=false;
-        }*/
+
 
         //create the "Fabian" or unicorn
         Vector3 pos = fabian.getPosition();
@@ -166,6 +166,8 @@ public class TutorialState extends State {
         sb.draw(ground, groundPos1.x, groundPos1.y);
         sb.draw(ground, groundPos2.x, groundPos2.y);
         sb.end();
+
+        // draw the opaque background for highlighted info
         if (tutPic<3) {
             Gdx.gl.glEnable(GL20.GL_BLEND);
             Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
@@ -186,7 +188,7 @@ public class TutorialState extends State {
 
 
 
-
+        // draw the different steps in the tutorial
         if (tutPic==0){
             sb.draw(clickPic, cam.position.x - (clickPic.getWidth() / 2), cam.position.y - (clickPic.getHeight()/2));
 

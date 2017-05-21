@@ -28,6 +28,8 @@ public class MenuState extends State {
 
     @Override
     public void handleInput() {
+
+        // decide which state the game should be transferred to, depending on where you click
         if (Gdx.input.justTouched()){
             if (Gdx.input.getY()<600) {
                 gam.set(new PlayState(gam));
