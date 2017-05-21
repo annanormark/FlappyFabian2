@@ -15,7 +15,7 @@ import java.lang.Object;
 import static java.lang.Thread.sleep;
 
 /**
- * Handels the entire state where the user plays
+ * handles the entire state where the user plays
  */
 
 public class PlayState extends State {
@@ -53,7 +53,7 @@ public class PlayState extends State {
         }
     }
 
-    // handels input, e.g. if a user touch screen, fabian jumps
+    // handles input, e.g. if a user touch screen, fabian jumps
     @Override
     protected void handleInput() {
         if (Gdx.input.justTouched()) {

@@ -2,6 +2,8 @@ package com.mygdx.game.States;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,13 +13,18 @@ import com.badlogic.gdx.utils.Array;
 import com.mygdx.game.FlappyFabian;
 import com.mygdx.game.sprites.Fabian;
 import com.mygdx.game.sprites.Rainbow;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer.ShapeType;
 
+
+import java.awt.Canvas;
 import java.lang.Object;
+import java.util.concurrent.TimeUnit;
 
 import static java.lang.Thread.sleep;
 
 /**
- * Handels the entire state where the user plays
+ * handles the entire state where the user plays
  */
 
 public class TutorialState extends State {
@@ -27,14 +34,14 @@ public class TutorialState extends State {
     private static final int GROUND_Y_OFFSET = -30;
 
     private Fabian fabian;
-    private Texture bg, ground;
+    private Texture bg, ground, clickPic, goThrough, crash;
     private Vector2 groundPos1, groundPos2;
-    private int score;
+    private int score, tutPic;
     private BitmapFont font;
-    public boolean paused = false;
+    public boolean paused = true;
     public boolean dead = false;
-
     private Array<Rainbow> tubes;
+    private ShapeRenderer shapeRenderer;
 
     // initiate the tutorialstate
     public TutorialState(GameStateManager gam) {
@@ -44,7 +51,11 @@ public class TutorialState extends State {
 
         bg = new Texture("Bakgrund.png");
         ground = new Texture("moln.png");
+        clickPic = new Texture("click.png");
+        goThrough = new Texture("goThrough.png");
+        crash = new Texture("dead.png");
         font = new BitmapFont();
+        shapeRenderer = new ShapeRenderer();
 
         fabian = new Fabian(50, 200);
         groundPos1 = new Vector2(cam.position.x - cam.viewportWidth / 2, GROUND_Y_OFFSET);
@@ -57,7 +68,7 @@ public class TutorialState extends State {
         }
     }
 
-    // handels input, e.g. if a user touch screen, fabian jumps
+    // handles input, e.g. if a user touch screen, fabian jumps
     @Override
     protected void handleInput() {
         if (Gdx.input.isKeyJustPressed(Input.Keys.SHIFT_LEFT)){
@@ -67,6 +78,16 @@ public class TutorialState extends State {
             if (!paused) {
                 fabian.jump();
             }
+            else if (paused && !dead){
+                if (tutPic<3) {
+                    tutPic++;
+                }
+                if (tutPic>=3){
+                    paused=false;
+                }
+
+            }
+
             else if (paused && dead){
                 gam.set(new MenuState(gam));
             }
@@ -76,9 +97,8 @@ public class TutorialState extends State {
     // update is called 60 times per seconds and update the entire game
     @Override
     public void update(float dt) {
-        // update different parts of the game + makes sure input is handeled directly
+        // update different parts of the game + makes sure input is handleed directly
         handleInput();
-        System.out.println(fabian.getPosition().toString());
         updateGround();
         if (!paused) {
 
@@ -120,11 +140,17 @@ public class TutorialState extends State {
     // render draws all items on the screen
     @Override
     public void render(SpriteBatch sb) {
+
         sb.setProjectionMatrix(cam.combined);
         sb.begin();
 
         //create background
         sb.draw(bg, cam.position.x - (cam.viewportWidth / 2), 0, cam.viewportWidth, cam.viewportHeight);
+
+
+        /*if (tutPic==3){
+            paused=false;
+        }*/
 
         //create the "Fabian" or unicorn
         Vector3 pos = fabian.getPosition();
@@ -140,16 +166,49 @@ public class TutorialState extends State {
         sb.draw(ground, groundPos1.x, groundPos1.y);
         sb.draw(ground, groundPos2.x, groundPos2.y);
         sb.end();
+        if (tutPic<3) {
+            Gdx.gl.glEnable(GL20.GL_BLEND);
+            Gdx.gl.glBlendFunc(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
+            shapeRenderer.begin(ShapeType.Filled);
+            shapeRenderer.setColor(new Color(1, 1, 1, 0.5f));
+            shapeRenderer.rect(0, 0, 1920, 1080);
+            shapeRenderer.end();
+            Gdx.gl.glDisable(GL20.GL_BLEND);
+        }
+
 
         //prints the score on the top of the screen
         sb.begin();
         font.setUseIntegerPositions(true);
         font.setColor(1.0f, 1.0f, 1.0f, 1.0f);
         font.draw(sb, score + "", cam.position.x, cam.position.y + (cam.viewportHeight / 3));
+
+
+
+
+
+        if (tutPic==0){
+            sb.draw(clickPic, cam.position.x - (clickPic.getWidth() / 2), cam.position.y - (clickPic.getHeight()/2));
+
+        }
+
+        if (tutPic==1){
+            sb.draw(goThrough, cam.position.x - (goThrough.getWidth() / 2), cam.position.y - (goThrough.getHeight()/2));
+
+        }
+
+        if (tutPic==2){
+            sb.draw(crash, cam.position.x - (crash.getWidth() / 2), cam.position.y - (crash.getHeight()/2));
+
+        }
+
         sb.end();
+
+
         Gdx.graphics.requestRendering();
 
         }
+
 
     //dispose is called in the end to make sure we don't create memory leaks
     @Override

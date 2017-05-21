@@ -11,15 +11,16 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
  */
 
 public class MenuState extends State {
-    private Texture backgroud, playBtnPic, titlepic;
+    private Texture backgroud, playBtnPic, titlepic, tutorialBtn;
     private SpriteBatch batch;
-    private Image playBtn, tutBtn;
+    private Image playBtn;
 
     public MenuState(GameStateManager gam) {
         super(gam);
         backgroud = new Texture("Bakgrund.png");
         titlepic = new Texture("title.png");
         playBtnPic = new Texture("start.png");
+        tutorialBtn = new Texture("tutorial_button.png");
         playBtn = new Image(playBtnPic);
 
 
@@ -28,8 +29,13 @@ public class MenuState extends State {
     @Override
     public void handleInput() {
         if (Gdx.input.justTouched()){
-            //gam.set(new PlayState(gam));
-            gam.set(new TutorialState(gam));
+            if (Gdx.input.getY()<600) {
+                gam.set(new PlayState(gam));
+            }
+            else {
+                gam.set(new TutorialState(gam));
+            }
+
         }
 
 
@@ -50,6 +56,7 @@ public class MenuState extends State {
         sb.draw(backgroud, x, y, cam.viewportWidth, cam.viewportHeight);
         sb.draw(titlepic, cam.position.x - (titlepic.getWidth() / 2), cam.position.x - (titlepic.getWidth()) + 470);
         sb.draw(playBtnPic, cam.position.x - (playBtnPic.getWidth() / 2), cam.position.y - (playBtnPic.getHeight()/2));
+        sb.draw(tutorialBtn, cam.position.x - (tutorialBtn.getWidth() /2), cam.position.y - (tutorialBtn.getHeight()/2)-300);
         sb.end();
     }
 
